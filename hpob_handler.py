@@ -141,6 +141,8 @@ class HPOBHandler:
             current_evaluations.append(idx)
 
         max_accuracy_history = []
+        max_accuracy_history.append(np.max(y[current_evaluations]))
+
         for i in range(n_trials):
 
             idx = bo_method.observe_and_suggest(X[current_evaluations], y[current_evaluations], X[pending_evaluations])
@@ -218,3 +220,7 @@ class HPOBHandler:
 
     def get_datasets(self, search_space):
         return list(self.meta_test_data[search_space].keys())
+
+    def get_input_dim(self, search_space_id, data_set_id):
+        X = np.array(self.meta_test_data[search_space_id][data_set_id]["X"])
+        return X.shape[1]
